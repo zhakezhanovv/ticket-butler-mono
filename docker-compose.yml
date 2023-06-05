@@ -1,0 +1,13 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - SERVICE=api
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
+    command: npm run prod:api
