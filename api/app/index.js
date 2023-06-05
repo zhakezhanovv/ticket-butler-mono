@@ -2,7 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const multer = require("multer");
-const { ticketController } = require("../controller/ticket");
+const TicketController = require("../controller/ticket");
 
 const PORT = process.env.PORT || 8000;
 
@@ -26,8 +26,11 @@ app.use(
 	})
 );
 
-app.post("/api/tickets", upload.single("file"), (req, res) => {
-	ticketController(req, res);
+app.post("/api/tickets", upload.single("file"), async (req, res) => {
+	await TicketController.addOne(req, res);
+});
+app.get("/api/tickets", async (req, res) => {
+	await TicketController.getMany(req, res);
 });
 
 app.get("/api/health", (req, res) => {
