@@ -1,6 +1,6 @@
 class Ticket {
 	constructor(title, fromNumber, description, filePath, createdAt) {
-		this.createdAt = new Date(Date.now()).toString();
+		this.createdAt = new Date(Date.now()).toISOString();
 		this.tel = fromNumber;
 		this.msg = title;
 		this.description = description;
