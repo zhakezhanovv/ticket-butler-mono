@@ -1,9 +1,9 @@
-const { ticketService } = require("../service/ticket");
+const TicketService = require("../service/ticket");
 
-function ticketController(req, res) {
-	ticketService(req, res);
+class TicketController {
+	static async addOne(req, res) {
+		await TicketService.addOne(req, res);
+	}
 }
 
-module.exports = {
-	ticketController,
-};
+module.exports = TicketController;
