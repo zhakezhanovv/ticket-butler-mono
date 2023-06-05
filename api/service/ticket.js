@@ -1,42 +1,34 @@
 const fs = require("fs");
 const Ticket = require("../model/ticket");
 
-function ticketService(req, res) {
-	const file = req.file;
-	const filePath = file?.path;
-	const { title, fromNumber, description } = req.body;
-	console.log(title, fromNumber, description, file);
+class TicketService {
+	static async addOne(req, res) {
+		const file = req.file;
+		const filePath = file?.path;
+		const { title, fromNumber, description } = req.body;
+		console.log(title, fromNumber, description, file);
 
-	const ticketIsValid = Ticket.isValid(title, fromNumber, description, filePath);
-	if (!ticketIsValid) {
-		res.send({ message: "Invalid Ticket" });
-		return;
-	}
-
-	const ticket = new Ticket(title, fromNumber, description, filePath);
-
-	fs.readFile("data.json", "utf8", (err, data) => {
-		if (err) {
-			res.send({ message: "Ticket save failed" });
+		const ticketIsValid = Ticket.isValid(title, fromNumber, description, filePath);
+		if (!ticketIsValid) {
+			res.status(400).send({ message: "Invalid Ticket" });
 			return;
 		}
 
-		const tickets = JSON.parse(data);
+		const ticket = new Ticket(title, fromNumber, description, filePath);
 
-		tickets.push(ticket);
-		const ticketsJson = JSON.stringify(tickets);
+		try {
+			const tickets = await Ticket.getMany();
 
-		fs.writeFile("data.json", ticketsJson, (err) => {
-			if (err) {
-				res.send({ message: "Ticket save failed" });
-				return;
-			} else {
-				res.send({ message: "Ticket saved" });
-			}
-		});
-	});
+			tickets.push(ticket);
+			console.log(tickets);
+
+			await Ticket.addMany(tickets);
+
+			res.status(200).send({ message: "Ticket saved" });
+		} catch (err) {
+			res.status(500).send({ message: "Ticket save failed" });
+		}
+	}
 }
 
-module.exports = {
-	ticketService,
-};
+module.exports = TicketService;
