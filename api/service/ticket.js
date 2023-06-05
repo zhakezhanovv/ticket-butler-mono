@@ -29,6 +29,11 @@ class TicketService {
 			res.status(500).send({ message: "Ticket save failed" });
 		}
 	}
+
+	static async getMany(req, res) {
+		const tickets = await Ticket.getMany();
+		res.status(200).send({ data: tickets });
+	}
 }
 
 module.exports = TicketService;
