@@ -1,0 +1,27 @@
+{
+	"name": "ticket-bot",
+	"version": "1.0.0",
+	"private": true,
+	"type": "commonjs",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"start:api": "nodemon ./api/app/index.js",
+		"start:bot": "nodemon ./bot/index.js",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"body-parser": "^1.20.2",
+		"cors": "^2.8.5",
+		"express": "^4.18.2",
+		"qrcode-terminal": "^0.12.0",
+		"whatsapp-web.js": "^1.21.0"
+	},
+	"devDependencies": {
+		"dotenv": "^16.1.4",
+		"nodemon": "^2.0.22"
+	}
+}
