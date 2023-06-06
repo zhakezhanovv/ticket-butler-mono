@@ -85,6 +85,12 @@ docker-compose up -d
 
 - Send a message with no text. Expected output will be: "Invaid ticket".
 
+## Troubleshooting
+
+- If you are using a local server, then change the API_URL value from http://0.0.0.0:8080 to http://localhost:8080. The original API_URL value is for launching with a docker container.
+
+- If you want to switch to a different account, then delete the project cache. This will allow you to scan a new QR code from the terminal.
+
 # Assumptions
 
 The endpoint itself is needed to generate a ticket(POST) and fetch a JSON file containing all tickets information. The endpoint requires a ticket information in order to create a ticket. Therefore, the endpoint has to operate with a service that connects WhatsApp client and the API. There is a library called ["whatsapp-web.js"](https://github.com/pedroslopez/whatsapp-web.js) that was used to create a bot which sends requests to the API service. Currently, the service works on a local machine and generates the JSON file locally(data.json). Since it is a test task, the service was deployed locally only. Further development might include adding a database and deployment on a cloud server. After creating a ticket, please check the data.json file to see the output.
