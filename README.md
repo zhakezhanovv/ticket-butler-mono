@@ -34,7 +34,7 @@ docker-compose up -d
 
 - To get the whole list of tickets, use GET method.
 
-- To insert a ticket to the data.json file, use PUT method and input into a form-data: title, fromNumber, description(optional) and file(optional).
+- To insert a ticket to the data.json file, use POST method and input into a form-data: title, fromNumber, description(optional) and file(optional).
 
 ## How to use the service
 
