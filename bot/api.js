@@ -12,15 +12,9 @@ async function postTicket(title, fromNumber, description, file) {
 	const blob = getFileBlob(file);
 
 	const formData = new FormData();
-	if (title) {
-		formData.append("title", title);
-	}
-	if (fromNumber) {
-		formData.append("fromNumber", fromNumber);
-	}
-	if (description) {
-		formData.append("description", description);
-	}
+	formData.append("title", title);
+	formData.append("fromNumber", fromNumber);
+	formData.append("description", description);
 	if (blob) {
 		formData.append("file", blob, file?.filename ?? title);
 	}
