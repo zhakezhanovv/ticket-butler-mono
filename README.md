@@ -44,46 +44,79 @@ docker-compose up -d
 
 3. Test the service with the following methods and check output in data.json file:
 
-- Send a single text message to the account. Expected output will be:
+In order to correctly create a ticket, you need to use "#ticket" text at the beginning of the message. Then the next line should start with "Title:" (i.e. Title: Fix the bathroom). Then in order to add a description, you need to start the next line with "Description:" (i.e. Description: It does not work properly) and description should be more than 2 words.
 
-```json
-[
-  {
-    "createdAt": "2023-06-06T02:20:17.054Z",
-    "tel": "77057017526",
-    "msg": "Не хочу брать😂"
-  }
-]
+- Send a text message to the account:
+
+```
+#ticket
+Title: test
+
 ```
 
-- Send a message to the account with 2 paragraphs (Title is the 1st line, description is the 2nd line). Expected output will be:
+Expected output will be:
 
 ```json
 [
   {
-    "createdAt": "2023-06-06T02:20:17.054Z",
-    "tel": "77057017526",
-    "msg": "Не хочу брать😂",
-    "description": "Test description"
-  }
-]
-```
-
-- Send a message to the account with 2 paragraphs (Title is the 1st line, description is the 2nd line) and attach a document. The upload files are stored in /uploads. Expected output will be:
-
-```json
-[
-  {
-    "createdAt": "2023-06-06T02:44:59.367Z",
+    "id": "d7a5b4ed-216a-48c0-5dw2-a390ade37aae",
+    "createdAt": "2023-06-08T14:39:51.591Z",
     "tel": "85268576166",
-    "msg": "Tyf",
-    "description": "Test description",
-    "fileUrl": "uploads/Ali Zhakezhanov.pdf"
+    "msg": "test"
   }
 ]
 ```
 
-- Send a message with no text. Expected output will be: "Invaid ticket".
+- Send a text message to the account:
+
+```
+#ticket
+Title: test
+Description: the bathroom does not work properly
+
+```
+
+Expected output will be:
+
+```json
+[
+  {
+    "id": "d7a5b4ed-216a-48c0-8dc2-a390ade37abe",
+    "createdAt": "2023-06-08T14:39:51.591Z",
+    "tel": "85268576166",
+    "msg": "test",
+    "description": "the bathroom does not work",
+    "updatedAt": "2023-06-08T14:40:52.570Z"
+  }
+]
+```
+
+- Send a text message with an image to the account:
+
+```
+#ticket
+Title: test
+Description: the bathroom does not work properly
+
+```
+
+Expected output will be:
+
+```json
+[
+  {
+    "id": "d7a5b4ed-216a-48c0-8dc2-a390ade37abe",
+    "createdAt": "2023-06-08T14:39:51.591Z",
+    "tel": "85268576166",
+    "msg": "test",
+    "description": "the bathroom does not work",
+    "fileUrl": "uploads/test",
+    "updatedAt": "2023-06-08T14:40:52.570Z"
+  }
+]
+```
+
+- Send a message with no title. Expected output will be: "Invaid ticket".
 
 ## Troubleshooting
 
@@ -93,4 +126,4 @@ docker-compose up -d
 
 # Assumptions
 
-The endpoint itself is needed to generate a ticket(POST) and fetch a JSON file containing all tickets information. The endpoint requires a ticket information in order to create a ticket. Therefore, the endpoint has to operate with a service that connects WhatsApp client and the API. There is a library called ["whatsapp-web.js"](https://github.com/pedroslopez/whatsapp-web.js) that was used to create a bot which sends requests to the API service. Currently, the service works on a local machine and generates the JSON file locally(data.json). Since it is a test task, the service was deployed locally only. Further development might include adding a database and deployment on a cloud server. After creating a ticket, please check the data.json file to see the output.
+The endpoint itself is needed to generate a ticket(POST) and fetch a JSON file containing all tickets information. The endpoint requires a ticket information in order to create a ticket. Therefore, the endpoint has to operate with a service that connects WhatsApp client and the API. There is a library called ["whatsapp-web.js"](https://github.com/pedroslopez/whatsapp-web.js) that was used to create a bot which sends requests to the API service. Currently, the service works on a local machine and generates the JSON file locally(data.json). Since it is a test task, the service was deployed locally only. "#ticket" text is used to determine a ticket. If the same ticket with the same title and sender is detected, then the new ticket will override the previous ticket and add an updated date to the database. Further development might include adding a database and deployment on a cloud server. After creating a ticket, please check the data.json file to see the output.
